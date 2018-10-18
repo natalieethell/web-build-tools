@@ -1,8 +1,8 @@
 /**
  * api-extractor-test-04
- * 
+ *
  * Test scenarios for trimming alpha/beta/internal definitions from the generated *.d.ts files.
- * 
+ *
  * @packagedocumentation
  */
 
@@ -50,4 +50,4 @@ export declare class PublicClass {
 
 /* Excluded from this release type: RegularEnum */
 
-export declare const variableDeclaration: string;
+/* Excluded from this release type: variableDeclaration */

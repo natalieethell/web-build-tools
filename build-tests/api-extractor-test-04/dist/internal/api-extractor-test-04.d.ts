@@ -1,8 +1,8 @@
 /**
  * api-extractor-test-04
- * 
+ *
  * Test scenarios for trimming alpha/beta/internal definitions from the generated *.d.ts files.
- * 
+ *
  * @packagedocumentation
  */
 
@@ -224,4 +224,8 @@ export declare enum RegularEnum {
     _InternalMember = 102
 }
 
+/**
+ * This is a module-scoped variable.
+ * @beta
+ */
 export declare const variableDeclaration: string;

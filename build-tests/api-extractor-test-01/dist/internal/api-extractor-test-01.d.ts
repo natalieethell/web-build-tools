@@ -1,11 +1,11 @@
 /**
  * api-extractor-test-01
- * 
+ *
  * @remarks
  * This library is consumed by api-extractor-test-02 and api-extractor-test-03.
  * It tests the basic types of definitions, and all the weird cases for following
  * chains of type aliases.
- * 
+ *
  * @packagedocumentation
  */
 
@@ -138,6 +138,7 @@ export declare class ForgottenExportConsumer3 {
     test2(): IForgottenDirectDependency | undefined;
 }
 
+/** @public */
 export declare const fullyExportedCustomSymbol: unique symbol;
 
 /**
