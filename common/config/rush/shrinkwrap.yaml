@@ -1,7 +1,7 @@
 dependencies:
   '@microsoft/node-library-build': 6.0.6
   '@microsoft/rush-stack-compiler': 0.4.3
-  '@microsoft/tsdoc': 0.11.0
+  '@microsoft/tsdoc': 0.12.4
   '@pnpm/link-bins': 1.0.3
   '@pnpm/logger': 1.0.2
   '@rush-temp/api-documenter': 'file:projects/api-documenter.tgz'
@@ -309,10 +309,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-CLLVG+zWmUvD6jZD5oq7QCFYj3WOvrBSc3H6KejXCH6q2ntP5/ZHlmKVzQVvN1cEOSWP+jN9ml2AvUcDY/l6Tw==
-  /@microsoft/tsdoc/0.11.0:
+  /@microsoft/tsdoc/0.12.4:
     dev: false
     resolution:
-      integrity: sha512-d3OqXeNGjfNsUgSkKbIoRThN1Z/kncbvzloEDnSrAzNGWTbRq2KsPoCZygwESUIfwYq6U1N8wpNCM/q/YfHK4Q==
+      integrity: sha512-nQZVQg3fXygj+9JT/FSPZOz3vqAIVAAR3ZuAuUdU4DSM/ubJq5lbl1hpLtl+REFmEq1rkvDmmPoJAbSoqjcmZQ==
   /@microsoft/tsdoc/0.9.3:
     dev: false
     resolution:
@@ -9616,17 +9616,18 @@ packages:
       integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==
   'file:projects/api-documenter.tgz':
     dependencies:
-      '@microsoft/tsdoc': 0.11.0
+      '@microsoft/tsdoc': 0.12.4
       '@types/jest': 21.1.10
       '@types/js-yaml': 3.9.1
       '@types/node': 8.5.8
       colors: 1.2.5
       gulp: 3.9.1
+      jest: 22.4.4
       js-yaml: 3.9.1
     dev: false
     name: '@rush-temp/api-documenter'
     resolution:
-      integrity: sha512-1Q8zGH85SGY4bD9ktIEnmpln1WvZtwc0PqLTUbPczp4VhM18LRrZpFUrbM+x9L7kaNXZd+masjICNwfylz0R+w==
+      integrity: sha512-YKy/ZhgL10MANEK/fIVLY7vMhi++MIWTk90wiKNCAHKZZ12PTxkPvjp7++P/hCNTDL2k1AGzT2ClqsabtHqhTw==
       tarball: 'file:projects/api-documenter.tgz'
     version: 0.0.0
   'file:projects/api-extractor-test-01.tgz':
@@ -9692,7 +9693,7 @@ packages:
     dependencies:
       '@microsoft/node-library-build': 6.0.6
       '@microsoft/rush-stack-compiler': 0.4.3
-      '@microsoft/tsdoc': 0.11.0
+      '@microsoft/tsdoc': 0.12.4
       '@types/jest': 21.1.10
       '@types/lodash': 4.14.116
       '@types/node': 8.5.8
@@ -9707,7 +9708,7 @@ packages:
     dev: false
     name: '@rush-temp/api-extractor'
     resolution:
-      integrity: sha512-/HulkbBznIh9XqOoRPYN0IBV1h0A9PmYhLPtNYWijf3B0hpCo/3yHaSTFdrQMrE4QpiQrLzoI3DS9XOEworvFQ==
+      integrity: sha512-EV/Qz6AFhqrIv/1aH3S5vOvIKy1uVSoi/k40HOXhJ4INtiLaJVKtUmMsAg/XnXAf4W/hPDZYK0lfW6x4pPc/aQ==
       tarball: 'file:projects/api-extractor.tgz'
     version: 0.0.0
   'file:projects/gulp-core-build-karma.tgz':
@@ -10212,7 +10213,7 @@ shrinkwrapVersion: 3
 specifiers:
   '@microsoft/node-library-build': 6.0.6
   '@microsoft/rush-stack-compiler': 0.4.3
-  '@microsoft/tsdoc': 0.11.0
+  '@microsoft/tsdoc': 0.12.4
   '@pnpm/link-bins': ~1.0.1
   '@pnpm/logger': ~1.0.1
   '@rush-temp/api-documenter': 'file:./projects/api-documenter.tgz'
