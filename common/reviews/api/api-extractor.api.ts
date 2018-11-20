@@ -10,12 +10,7 @@ class ApiClass extends ApiClass_base {
 }
 
 // @public (undocumented)
-interface ApiDeclarationMixin extends ApiItem {
-  // WARNING: The type "IApiItemJson" needs to be exported by the package (e.g. added to index.ts)
-  // @override (undocumented)
-  serializeInto(jsonObject: Partial<IApiItemJson>): void;
-  // (undocumented)
-  readonly signature: string;
+interface ApiDeclarationMixin {
 }
 
 // @public (undocumented)
@@ -41,16 +36,7 @@ class ApiEntryPoint extends ApiEntryPoint_base {
 }
 
 // @public (undocumented)
-interface ApiFunctionLikeMixin extends ApiItem {
-  // (undocumented)
-  addParameter(parameter: ApiParameter): void;
-  // (undocumented)
-  readonly overloadIndex: number;
-  // (undocumented)
-  readonly parameters: ReadonlyArray<ApiParameter>;
-  // WARNING: The type "IApiItemJson" needs to be exported by the package (e.g. added to index.ts)
-  // (undocumented)
-  serializeInto(jsonObject: Partial<IApiItemJson>): void;
+interface ApiFunctionLikeMixin {
 }
 
 // @public (undocumented)
@@ -74,6 +60,9 @@ class ApiItem {
   // WARNING: The type "IApiItemJson" needs to be exported by the package (e.g. added to index.ts)
   // (undocumented)
   static deserialize(jsonObject: IApiItemJson): ApiItem;
+  getAssociatedPackage(): ApiPackage | undefined;
+  getHierarchy(): ReadonlyArray<ApiItem>;
+  getScopedNameWithinPackage(): string;
   // @virtual (undocumented)
   getSortKey(): string;
   // @virtual (undocumented)
@@ -93,16 +82,7 @@ class ApiItem {
 }
 
 // @public (undocumented)
-interface ApiItemContainerMixin extends ApiItem {
-  // (undocumented)
-  addMember(member: ApiItem): void;
-  // (undocumented)
-  readonly members: ReadonlyArray<ApiItem>;
-  // WARNING: The type "IApiItemJson" needs to be exported by the package (e.g. added to index.ts)
-  // @override (undocumented)
-  serializeInto(jsonObject: Partial<IApiItemJson>): void;
-  // (undocumented)
-  tryGetMember(canonicalReference: string): ApiItem | undefined;
+interface ApiItemContainerMixin {
 }
 
 // @public (undocumented)
@@ -116,6 +96,8 @@ enum ApiItemKind {
   // (undocumented)
   Method = "Method",
   // (undocumented)
+  MethodSignature = "MethodSignature",
+  // (undocumented)
   Model = "Model",
   // (undocumented)
   Namespace = "Namespace",
@@ -125,6 +107,8 @@ enum ApiItemKind {
   Package = "Package",
   // (undocumented)
   Parameter = "Parameter",
+  // (undocumented)
+  Property = "Property",
   // (undocumented)
   PropertySignature = "PropertySignature"
 }
@@ -136,6 +120,17 @@ class ApiMethod extends ApiMethod_base {
   readonly canonicalReference: string;
   // (undocumented)
   static getCanonicalReference(name: string, isStatic: boolean, overloadIndex: number): string;
+  // @override (undocumented)
+  readonly kind: ApiItemKind;
+}
+
+// @public (undocumented)
+class ApiMethodSignature extends ApiMethodSignature_base {
+  constructor(options: IApiMethodSignatureOptions);
+  // @override (undocumented)
+  readonly canonicalReference: string;
+  // (undocumented)
+  static getCanonicalReference(name: string, overloadIndex: number): string;
   // @override (undocumented)
   readonly kind: ApiItemKind;
 }
@@ -153,6 +148,9 @@ class ApiModel extends ApiModel_base {
   loadPackage(apiJsonFilename: string): ApiPackage;
   // (undocumented)
   readonly packages: ReadonlyArray<ApiPackage>;
+  // (undocumented)
+  resolveDeclarationReference(declarationReference: DocDeclarationReference, contextApiItem: ApiItem | undefined): IResolveDeclarationReferenceResult;
+  tryGetPackageByName(packageName: string): ApiPackage | undefined;
 }
 
 // @public (undocumented)
@@ -175,6 +173,8 @@ class ApiPackage extends ApiPackage_base {
   readonly canonicalReference: string;
   // (undocumented)
   readonly entryPoints: ReadonlyArray<ApiEntryPoint>;
+  // (undocumented)
+  findEntryPointsByPath(importPath: string): ReadonlyArray<ApiEntryPoint>;
   // @override (undocumented)
   readonly kind: ApiItemKind;
   // (undocumented)
@@ -194,6 +194,23 @@ class ApiParameter extends ApiParameter_base {
 }
 
 // @public (undocumented)
+class ApiProperty extends ApiProperty_base {
+  constructor(options: IApiPropertyOptions);
+  // @override (undocumented)
+  readonly canonicalReference: string;
+  // (undocumented)
+  static getCanonicalReference(name: string, isStatic: boolean): string;
+  // @override (undocumented)
+  readonly kind: ApiItemKind;
+}
+
+// @public
+class ApiPropertyItem extends ApiDocumentedItem {
+  constructor(options: IApiPropertyItemOptions);
+  readonly isEventProperty: boolean;
+}
+
+// @public (undocumented)
 class ApiPropertySignature extends ApiPropertySignature_base {
   constructor(options: IApiPropertySignatureOptions);
   // @override (undocumented)
@@ -205,12 +222,15 @@ class ApiPropertySignature extends ApiPropertySignature_base {
 }
 
 // @public (undocumented)
-interface ApiStaticMixin extends ApiItem {
-  // (undocumented)
-  readonly isStatic: boolean;
-  // WARNING: The type "IApiItemJson" needs to be exported by the package (e.g. added to index.ts)
-  // @override (undocumented)
-  serializeInto(jsonObject: Partial<IApiItemJson>): void;
+interface ApiReleaseTagMixin {
+}
+
+// @public (undocumented)
+interface ApiResultTypeMixin {
+}
+
+// @public (undocumented)
+interface ApiStaticMixin {
 }
 
 // @public
@@ -221,8 +241,10 @@ class Extractor {
   analyzeProject(options?: IAnalyzeProjectOptions): void;
   static generateFilePathsForAnalysis(inputFilePaths: string[]): string[];
   static jsonSchema: JsonSchema;
+  static readonly packageName: string;
   processProject(options?: IAnalyzeProjectOptions): boolean;
   static processProjectFromConfigFile(jsonConfigFile: string, options?: IExtractorOptions): void;
+  static readonly version: string;
 }
 
 // @public
@@ -237,7 +259,7 @@ interface IAnalyzeProjectOptions {
 }
 
 // @public (undocumented)
-interface IApiClassOptions extends IApiItemContainerMixinOptions, IApiDeclarationMixinOptions, IApiDocumentedItemOptions {
+interface IApiClassOptions extends IApiDeclarationMixinOptions, IApiItemContainerMixinOptions, IApiReleaseTagMixinOptions, IApiDocumentedItemOptions {
 }
 
 // @public (undocumented)
@@ -265,7 +287,7 @@ interface IApiFunctionLikeMixinOptions extends IApiItemOptions {
 }
 
 // @public (undocumented)
-interface IApiInterfaceOptions extends IApiItemContainerMixinOptions, IApiDeclarationMixinOptions, IApiDocumentedItemOptions {
+interface IApiInterfaceOptions extends IApiDeclarationMixinOptions, IApiItemContainerMixinOptions, IApiReleaseTagMixinOptions, IApiDocumentedItemOptions {
 }
 
 // @public (undocumented)
@@ -281,11 +303,15 @@ interface IApiItemOptions {
 }
 
 // @public (undocumented)
-interface IApiMethodOptions extends IApiFunctionLikeMixinOptions, IApiStaticMixinOptions, IApiDeclarationMixinOptions, IApiDocumentedItemOptions {
+interface IApiMethodOptions extends IApiDeclarationMixinOptions, IApiFunctionLikeMixinOptions, IApiReleaseTagMixinOptions, IApiResultTypeMixinOptions, IApiStaticMixinOptions, IApiDocumentedItemOptions {
 }
 
 // @public (undocumented)
-interface IApiNamespaceOptions extends IApiItemContainerMixinOptions, IApiDeclarationMixinOptions, IApiDocumentedItemOptions {
+interface IApiMethodSignatureOptions extends IApiDeclarationMixinOptions, IApiFunctionLikeMixinOptions, IApiReleaseTagMixinOptions, IApiResultTypeMixinOptions, IApiDocumentedItemOptions {
+}
+
+// @public (undocumented)
+interface IApiNamespaceOptions extends IApiDeclarationMixinOptions, IApiItemContainerMixinOptions, IApiReleaseTagMixinOptions, IApiDocumentedItemOptions {
 }
 
 // @public (undocumented)
@@ -293,11 +319,31 @@ interface IApiPackageOptions extends IApiItemContainerMixinOptions, IApiDocument
 }
 
 // @public (undocumented)
-interface IApiParameterOptions extends IApiDeclarationMixinOptions {
+interface IApiParameterOptions extends IApiDeclarationMixinOptions, IApiResultTypeMixinOptions, IApiItemOptions {
 }
 
 // @public (undocumented)
-interface IApiPropertySignatureOptions extends IApiDeclarationMixinOptions, IApiDocumentedItemOptions {
+interface IApiPropertyItemOptions extends IApiDocumentedItemOptions {
+}
+
+// @public (undocumented)
+interface IApiPropertyOptions extends IApiDeclarationMixinOptions, IApiReleaseTagMixinOptions, IApiResultTypeMixinOptions, IApiStaticMixinOptions, IApiPropertyItemOptions {
+}
+
+// @public (undocumented)
+interface IApiPropertySignatureOptions extends IApiDeclarationMixinOptions, IApiReleaseTagMixinOptions, IApiResultTypeMixinOptions, IApiPropertyItemOptions {
+}
+
+// @public (undocumented)
+interface IApiReleaseTagMixinOptions extends IApiItemOptions {
+  // (undocumented)
+  releaseTag: ReleaseTag;
+}
+
+// @public (undocumented)
+interface IApiResultTypeMixinOptions extends IApiItemOptions {
+  // (undocumented)
+  resultTypeSignature: string;
 }
 
 // @public (undocumented)
@@ -388,6 +434,39 @@ interface ILogger {
   logInfo(message: string): void;
   logVerbose(message: string): void;
   logWarning(message: string): void;
+}
+
+// @beta
+class IndentedWriter {
+  constructor(builder?: IStringBuilder);
+  decreaseIndent(): void;
+  defaultIndentPrefix: string;
+  ensureNewLine(): void;
+  ensureSkippedLine(): void;
+  getText(): string;
+  increaseIndent(indentPrefix?: string): void;
+  indentScope(scope: () => void, indentPrefix?: string): void;
+  peekLastCharacter(): string;
+  peekSecondLastCharacter(): string;
+  // (undocumented)
+  toString(): string;
+  write(message: string): void;
+  writeLine(message?: string): void;
+}
+
+// @public
+interface IResolveDeclarationReferenceResult {
+  errorMessage: string | undefined;
+  resolvedApiItem: ApiItem | undefined;
+}
+
+// @public
+enum ReleaseTag {
+  Alpha = 2,
+  Beta = 3,
+  Internal = 1,
+  None = 0,
+  Public = 4
 }
 
 // WARNING: Unsupported export: Constructor
